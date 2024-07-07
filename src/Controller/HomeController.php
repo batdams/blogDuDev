@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController; //contient not
 
 class HomeController extends AbstractController
 {
-    // #[Route('/')] // Attribut PHP (V8+), utilisé pour la création de routes avec Sf
+    #[Route('/')] // Attribut PHP (V8+), utilisé pour la création de routes avec Sf
     public function number() : Response
     {
         $number = rand(0, 100);

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -22,6 +24,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $password;
     #[ORM\Column(type: 'json')] // type json pour mysql (un array est un json en base)
     private array $roles = [];
+
+    /**
+     * @var Collection<int, ArticleNote>
+     */
+    #[ORM\OneToMany(targetEntity: ArticleNote::class, mappedBy: 'User', orphanRemoval: true)]
+    private Collection $articleNotes;
+
+    public function __construct()
+    {
+        $this->articleNotes = new ArrayCollection();
+    }
 
     // ----- GETTERS -----
     /**
@@ -158,6 +171,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRoles($roles)
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ArticleNote>
+     */
+    public function getArticleNotes(): Collection
+    {
+        return $this->articleNotes;
+    }
+
+    public function addArticleNote(ArticleNote $articleNote): static
+    {
+        if (!$this->articleNotes->contains($articleNote)) {
+            $this->articleNotes->add($articleNote);
+            $articleNote->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleNote(ArticleNote $articleNote): static
+    {
+        if ($this->articleNotes->removeElement($articleNote)) {
+            // set the owning side to null (unless already changed)
+            if ($articleNote->getUser() === $this) {
+                $articleNote->setUser(null);
+            }
+        }
 
         return $this;
     }
