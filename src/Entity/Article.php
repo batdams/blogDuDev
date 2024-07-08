@@ -40,7 +40,7 @@ class Article
     /**
      * @var Collection<int, ArticleNote>
      */
-    #[ORM\OneToMany(targetEntity: ArticleNote::class, mappedBy: 'note', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ArticleNote::class, mappedBy: 'article', orphanRemoval: true)]
     private Collection $notes;
 
     #[ORM\ManyToOne(inversedBy: 'Article')]

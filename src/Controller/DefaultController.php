@@ -10,6 +10,6 @@ class DefaultController extends AbstractController
     #[Route('/index', name: 'index')] // Si requete = /, name = index
     public function index(): Response // return = contenu texte || tableau clé/valeur Json || template twig avec $this->render()
     {
-        return new Response ('reponse ok!'); // réponse contenu texte
+        return $this->render('page/index.html.twig');
     }
 }
