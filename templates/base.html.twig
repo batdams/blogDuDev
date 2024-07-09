@@ -12,8 +12,14 @@
         {% endblock %}
     </head>
     <body>
+        <nav>
+            <ul>
+                <li><a href ="{{ path('index') }}">Accueil</a></li>
+                <li><a href ="{{ path('articles_list') }}">Liste des articles</a></li>
+                <li><a href ='{{ path('articles_create') }}'>Créer un article</a></li>
+            </ul>
+        </nav>
         {% block body %}
-         <h1> Votre numéro porte-bonheur est le {{ number }}</h1>
         {% endblock %}
     </body>
 </html>
