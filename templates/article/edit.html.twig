@@ -1,7 +1,8 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <h2>Ajouter un article</h2>
+    <h2>{{ is_create ? 'Ajouter un article' : 'Modifier cet article'}}</h2>
+    <!-- ternaire twig pour : if ( is_create == true) {} else {}-->
     {{ form_start(form) }}
     {{ form_row(form.title) }}
     {{ form_row(form.content) }}

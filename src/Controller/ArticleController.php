@@ -9,6 +9,8 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Article;
 use App\Form\ArticleType;
+use App\Entity\Comment;
+use App\Form\CommentType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -24,10 +26,16 @@ class ArticleController extends AbstractController
     }
 
     #[Route(path: '/show/{id}', name: 'show')]
-    public function show(Article $article): Response
+    public function show(Article $article = null): Response
     {
+        $comment = new Comment;
+        $comment->setArticle($article);
+
+        $form = $this->createForm(CommentType::class, $comment);
+
         return $this->render('article/show.html.twig', [
-            'article' => $article
+            'article' => $article,
+            'form' => $form
         ]);
     }
 
@@ -59,7 +67,8 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('articles_list');
         }
         return $this->render('article/edit.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'is_create' => $isCreate
         ]);
     }
     #[Route(path: '/delete/{id}', name: 'delete')]
