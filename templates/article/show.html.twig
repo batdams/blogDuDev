@@ -1,25 +1,47 @@
 {% extends "base.html.twig" %}
 
+{% form_theme form with [
+    'form/template.html.twig'
+]%}
+
 {% block body %}
-    <article>
-        <h2>{{ article.title }}</h2>
-        <h3>{{ article.category }}</h3>
-        {{ article.content }}
-        {% if article.publishedAt %}
-            <p>Article publié le {{ article.publishedAt }}</p>
-        {% else %}
-            <p>{{ article.status }}</p>
-        {% endif %}
+    <article class="card">
+        <div class="card-header">        
+            <h2>{{ article.title }}</h2>
+            <h3>{{ article.category }}</h3>
+        </div>
+        <div class="card-body">
+            {{ article.content }}
+        </div>
+        <div class="card-footer text-muted">
+            {% if article.publishedAt %}
+                <p>Article publié le {{ article.publishedAt }}</p>
+            {% else %}
+                <p>{{ article.status }}</p>
+            {% endif %}
+        </div>
     </article>
+    <div>    
+        <h3> Commentaires </h3>
+        {% for comment in article.comments %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <p>{{ comment.content }}</p>
+            </div>
+            <div class="card-footer text-muted">
+                publié le {{ comment.publishedAt|date('d/m/Y') }} à {{ comment.publishedAt|date('H/i') }}
+            </div>
+        </div>
+        {% else %}
+        <div class="card">
+            <div class="card-body">
+                <p> Aucun commentaire </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
     <div>
-    <h3> Commentaires </h3>
-    {% for comment in article.comments %}
-    <p>{{ comment.content }}</p>
-    {% else %}
-    <p> Aucun commentaire </p>
-    {% endfor %}
-    <!-- Affichage des commentaires -->
-    <h3> Ajouter un commentaire </h3>
-    {{ form(form) }}
+        <h3> Ajouter un commentaire </h3>
+        {{ form(form) }}
     </div>
 {% endblock %}
