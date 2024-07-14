@@ -12,6 +12,12 @@
         {% endif %}
     </article>
     <div>
+    <h3> Commentaires </h3>
+    {% for comment in article.comments %}
+    <p>{{ comment.content }}</p>
+    {% else %}
+    <p> Aucun commentaire </p>
+    {% endfor %}
     <!-- Affichage des commentaires -->
     <h3> Ajouter un commentaire </h3>
     {{ form(form) }}
